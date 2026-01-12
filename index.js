@@ -16,6 +16,8 @@ app.get("/items", (req, res) => {
     res.json(items);
 });
 
+let currentId = 1;
+
 //Add new items
 app.post("/items", (req, res) => {
     const newItem = req.body;
@@ -24,10 +26,15 @@ app.post("/items", (req, res) => {
     return res.status(400).json({ message: "No data sent" });
   }
 
-    items.push(newItem);
-    res.status(201).json(newItem);
+  const itemWithId = {
+    id: currentId++, // auto - geneerated id
+    ...newItem
+  }
+
+    items.push(itemWithId);
+    res.status(201).json(itemWithId);
 });
 
 app.listen(PORT, () => {
     console.log(`Server is running ${PORT}`);
-})
+});
